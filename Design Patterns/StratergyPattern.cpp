@@ -2,76 +2,77 @@
 
 using namespace std;
 
-class IType
+class IPromoteStrategy
 {
 public:
-    virtual void FindAvailableMove()    
+    float virtual DoDiscount(float price)
     {
         cout << "default called" << endl;
+        return -1;
     }
 };
 
-class ChessPiece
+class Ticket
 {
 private:
-    bool team = false;
-    int location = 1;
-    IType *type;
+    float _price;
+    IPromoteStrategy *_promoteStrategy;
 public:
-    ChessPiece()
+    void SetIPromoteStrategy(IPromoteStrategy *strategy)
     {
+        this->_promoteStrategy = strategy;
+    }
+    float GetPromotedPrice()
+    {
+        return _promoteStrategy->DoDiscount(_price);
+    };
+    void SetPrice(float price)
+    {
+        this->_price = price;
+    }
 
-    }
-    ChessPiece(IType *type)
-    {
-        this->type = type;
-    }
-    void SetType(IType *type)
-    {
-        this->type = type;
-    }
-    void ShowAvailableMove()
-    {
-        (*type).FindAvailableMove();
-    }
 };
 
-class King : public IType
+class NoDiscountStrategy : public IPromoteStrategy
 {
 public:
-    void  FindAvailableMove()
+    float DoDiscount(float price)
     {
-        cout << "this is available move for KING" << endl;
+        return price;
     }
 };
 
-class Queen : public IType
+class HalfDiscountStrategy : public IPromoteStrategy
 {
-    void FindAvailableMove()
+public:
+    float DoDiscount(float price)
     {
-        cout << "this is available move for QUEEN" << endl;
+        return price / 2;
     }
 };
 
-class Pawn : public IType
+class QuartDiscountStrategy : public IPromoteStrategy
 {
-    void FindAvailableMove()
+public:
+    float DoDiscount(float price)
     {
-        cout << "this is available move for PAWN" << endl;
+        return price / 4;
+    }
+};
+
+class BlackPinkConcertTicket : public Ticket
+{
+public:
+    BlackPinkConcertTicket()
+    {
+        this->SetIPromoteStrategy(new HalfDiscountStrategy());
     }
 };
 
 int main()
 {
-    //show available move for KING
-    ChessPiece king(new King());
-    //show available move for QUEEN
-    ChessPiece queen(new Queen());
-    //show available move for PAWN
-    ChessPiece pawn(new Pawn());
-    
-    king.ShowAvailableMove();
-    queen.ShowAvailableMove();
-    pawn.ShowAvailableMove();
+    BlackPinkConcertTicket *ticket = new BlackPinkConcertTicket();
+    ticket->SetPrice(1000);
+    cout << ticket->GetPromotedPrice();
     return 0;
 }
