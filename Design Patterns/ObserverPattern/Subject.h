@@ -8,7 +8,7 @@ class SubjectInterface
 public:
     virtual void AddObserver(ObserverInterface* observer) = 0;
     virtual void RemoveObserver(ObserverInterface* observer) = 0;
-    virtual void Notify() = 0;
+    virtual void Notify(string message) = 0;
 
 };
 
@@ -28,13 +28,13 @@ public:
     {
         _observers.push_back(observer);
     }
-    void Notify() override
+    void Notify(string message) override
     {
         if(_observers.empty()) return;
         list<ObserverInterface*>::iterator it = _observers.begin();
         while (it != _observers.end())
         {
-            (*it)->Update();
+            (*it)->Update(message);
             it++;
 
         }

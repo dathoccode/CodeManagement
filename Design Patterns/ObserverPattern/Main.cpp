@@ -1,10 +1,11 @@
-#include "Subject.h"
+#include "VideoData.h"
 
 int main()
 {
-    Subject *sub1 = new Subject;
-    Observer *ob1 = new Observer();
-    sub1->AddObserver(ob1);
-    sub1->Notify();
+    VideoData *ytVideo = new VideoData("hongngoc", "http", "video description");
+    ytVideo->AddObserver(new Observer());
+    ytVideo->AddObserver(new Observer());
+    ytVideo->SetTitle("new title");
+    
     return 0;
 }

@@ -8,6 +8,12 @@ private:
     string _URL;
     string _description;
 public:
+    VideoData(string title, string URL, string description)
+    {
+        this->_title = title;
+        this->_URL = URL;
+        this->_description = description;
+    }
     string GetTitle()
     {
         return this->_title;
@@ -15,7 +21,7 @@ public:
     void SetTitle(string title)
     {
         this->_title = title;
-        void VideoDataChanged();
+        VideoDataChanged("Title changed");
     }
     string GetURL() 
     {
@@ -24,7 +30,7 @@ public:
     void SetURL(string URL)
     {
         this->_URL = URL;
-        void VideoDataChanged();
+        VideoDataChanged("URL changed");
     }
     string GetDescription() 
     {
@@ -33,11 +39,11 @@ public:
     void SetDescription(string description)
     {
         this->_description = description;
-        void VideoDataChanged();
+        VideoDataChanged("description changed");
     }
-    void VideoDataChanged()
+    void VideoDataChanged(string message)
     {
-        this->Notify();
+        this->Notify(message);
     }
 
 

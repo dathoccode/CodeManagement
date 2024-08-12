@@ -6,7 +6,7 @@ class ObserverInterface
 {
 private:
 public:
-    virtual void Update() = 0;
+    virtual void Update(string message) = 0;
     friend class Subject;
 
 };
@@ -21,9 +21,9 @@ public:
     {
         _observerID = ++_observerCounter;
     }
-    void Update() override
+    void Update(string message) override
     {
-        cout << _observerID << " notified for: " << endl;
+        cout << _observerID << " notified for: " << message << endl;
     }
 
 };
